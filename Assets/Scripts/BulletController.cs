@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour {
     float startPosition;
     new Rigidbody2D rigidbody2D;
     
+    
 
     void Awake() {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -18,7 +19,6 @@ public class BulletController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(startPosition + " " + transform.position.y);
         if (Mathf.Abs(transform.position.y - startPosition) > maxDistance) {
             Destroy(gameObject);
 		}
