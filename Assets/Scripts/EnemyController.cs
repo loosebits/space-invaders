@@ -5,16 +5,27 @@ public class EnemyController : MonoBehaviour {
     Animator animator;
     new Rigidbody2D rigidbody2D;
     int direction = 1;
+    public GameObject bulletPrefab;
+    float firingDelay;
+    float fireTime;
 
     // Use this for initialization
     void Awake() {
+
         animator = GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        GameObject go = Instantiate(bulletPrefab);
+        firingDelay = Random.value * GameController.instance.FiringDelay();
+        fireTime = Time.time;
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (Time.time > fireTime + firingDelay) {
+            Fire();
+            firingDelay = Random.value * GameController.instance.FiringDelay();
+            fireTime = Time.time;
+        }
     }
 
 	private void FixedUpdate() {
@@ -28,11 +39,18 @@ public class EnemyController : MonoBehaviour {
         if (bulletController != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
-            Destroy(bulletController.gameObject);
         } else {
-            Debug.Log("Collided");
+			direction *= -1;
+        }
+    }
 
-            direction *= -1;
+    void Fire() {
+        Debug.Log("Fire");
+        if (GameController.instance.CanHaveMoreBullets() && rigidbody2D.simulated) {
+            GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+            Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+            bulletRb.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+            GameController.instance.BulletFired();
         }
     }
 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1028863345881349385}
   - component: {fileID: -1338814541176092012}
   - component: {fileID: 6103129836038064998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,3 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ac57a6b119f40c7af78bebae2749d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6008317844671020362, guid: ba46cf37d7a714b2ea0d6f2a4a2621ca,
+    type: 3}

@@ -25,6 +25,10 @@ public class BulletController : MonoBehaviour {
     }
 
 	void OnCollisionEnter2D(Collision2D collision) {
+        
+        if (gameObject.layer == LayerMask.NameToLayer("EnemyProjectile")) {
+            GameController.instance.BulletDestroyed();
+		}
         Destroy(gameObject);
 	}
 
