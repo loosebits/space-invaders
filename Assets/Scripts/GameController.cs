@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour {
 	int currentMax;
 	int numBullets;
 	float lastIncremented;
+	int numShips;
+	int currentLevel;
+	bool gameOver;
 
 	public GameController() {
         instance = this;
@@ -19,19 +22,66 @@ public class GameController : MonoBehaviour {
 
 	void Start() {
 		lastIncremented = Time.time;
+		Level1();
+
 	}
 
-    // Update is called once per frame
-    void Update() {
+
+	void Level1() {
+		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		enemyRowControllers[2].Activate();
+		enemyRowControllers[5].Activate();
+		maxBulletCount = 5;
+		currentMax = 1;
+	}
+	void Level2() {
+		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		enemyRowControllers[1].Activate();
+		enemyRowControllers[2].Activate();
+		enemyRowControllers[3].Activate();
+		maxBulletCount = 7;
+		currentMax = 1;
+	}
+	void Level3() {
+		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		enemyRowControllers[1].Activate();
+		enemyRowControllers[2].Activate();
+		enemyRowControllers[3].Activate();
+		enemyRowControllers[4].Activate();
+		enemyRowControllers[5].Activate();
+		maxBulletCount = 10;
+		currentMax = 1;
+	}
+	void level4() {
+		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		enemyRowControllers[1].Activate();
+		enemyRowControllers[2].Activate();
+		enemyRowControllers[3].Activate();
+		enemyRowControllers[4].Activate();
+		enemyRowControllers[5].Activate();
+		enemyRowControllers[6].Activate();
+		maxBulletCount = 13;
+		currentMax = 1;
+	}
+
+	public void GameOver() {
+		gameOver = true;
+	}
+
+	// Update is called once per frame
+	void Update() {
 		Debug.Log("Current max = " + currentMax);
 		if (currentMax < maxBulletCount) {
 			if (Time.time > lastIncremented + 2) {
 				currentMax++;
 				lastIncremented = Time.time;
-				Debug.Log("Current max = " + currentMax);
 			}
 		}
     }
+
+	internal void ShipCreated() {
+		numShips++;
+	}
 
 	internal void BulletDestroyed() {
 		numBullets = Mathf.Clamp(numBullets - 1, 0, currentMax);
@@ -39,7 +89,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	internal bool CanHaveMoreBullets() {
-		return numBullets < currentMax;
+		return numBullets < currentMax && !gameOver;
 	}
 
 	internal void BulletFired() {
@@ -50,5 +100,11 @@ public class GameController : MonoBehaviour {
 		return (float)numBullets / (float)currentMax;
 	}
 
-
+	internal void ShipDestroyed() {
+		numShips--;
+		if (numShips == 0) {
+			Debug.Log("Finished level " + currentLevel);
+			Invoke("Level" + ++currentLevel, 3);
+		}
+	}
 }

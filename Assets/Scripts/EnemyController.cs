@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour {
         GameObject go = Instantiate(bulletPrefab);
         firingDelay = Random.value * GameController.instance.FiringDelay();
         fireTime = Time.time;
+        GameController.instance.ShipCreated();
     }
 
     // Update is called once per frame
@@ -39,6 +40,7 @@ public class EnemyController : MonoBehaviour {
         if (bulletController != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
+            GameController.instance.ShipDestroyed();
         } else {
 			direction *= -1;
         }

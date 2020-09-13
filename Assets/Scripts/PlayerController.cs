@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
         if (bullet != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
+            GameController.instance.GameOver();
         }
 
 	}

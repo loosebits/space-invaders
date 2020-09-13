@@ -8,7 +8,7 @@ public class EnemyRowController : MonoBehaviour {
 
     List<GameObject> ships = new List<GameObject>();
 
-    void Start() {
+    public void Activate() {
         RectTransform t = (RectTransform) transform;
         Rect rowBounds = t.rect;
         float y = t.position.y;
@@ -20,6 +20,8 @@ public class EnemyRowController : MonoBehaviour {
 		}
         
     }
+
+
 
     // Update is called once per frame
     void Update() {
