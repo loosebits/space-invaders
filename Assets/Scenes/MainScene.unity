@@ -1391,7 +1391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf520462050e14fc0a7bae3a45494503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBulletCount: 10
+  startingLevel: 1
 --- !u!4 &1910724118
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     // Start is called before the first frame update
     public static GameController instance;
-    public int maxBulletCount;
+    int maxBulletCount;
+	public int startingLevel;
 	int currentMax;
 	int numBullets;
 	float lastIncremented;
@@ -22,46 +23,49 @@ public class GameController : MonoBehaviour {
 
 	void Start() {
 		lastIncremented = Time.time;
-		Level1();
+		currentLevel = startingLevel;
+		StartLevel(currentLevel);
 
 	}
 
+	void StartLevel(int level) {
+		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		currentMax = 1;
+		switch (level) {
+			case 1:
+				enemyRowControllers[2].Activate();
+				enemyRowControllers[5].Activate();
+				maxBulletCount = 5;
+				break;
+			case 2:
+				enemyRowControllers[1].Activate();
+				enemyRowControllers[2].Activate();
+				enemyRowControllers[3].Activate();
+				maxBulletCount = 7;
+				break;
+			case 3:
+				for (int i = 0; i < 5; i++) {
+					enemyRowControllers[i].Activate();
+				}
+				maxBulletCount = 10;
+				break;
+			case 4:
+				foreach (EnemyRowController ctl in enemyRowControllers) {
+					ctl.Activate();
+				}
 
-	void Level1() {
-		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
-		enemyRowControllers[2].Activate();
-		enemyRowControllers[5].Activate();
-		maxBulletCount = 5;
-		currentMax = 1;
-	}
-	void Level2() {
-		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
-		enemyRowControllers[1].Activate();
-		enemyRowControllers[2].Activate();
-		enemyRowControllers[3].Activate();
-		maxBulletCount = 7;
-		currentMax = 1;
-	}
-	void Level3() {
-		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
-		enemyRowControllers[1].Activate();
-		enemyRowControllers[2].Activate();
-		enemyRowControllers[3].Activate();
-		enemyRowControllers[4].Activate();
-		enemyRowControllers[5].Activate();
-		maxBulletCount = 10;
-		currentMax = 1;
-	}
-	void level4() {
-		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
-		enemyRowControllers[1].Activate();
-		enemyRowControllers[2].Activate();
-		enemyRowControllers[3].Activate();
-		enemyRowControllers[4].Activate();
-		enemyRowControllers[5].Activate();
-		enemyRowControllers[6].Activate();
-		maxBulletCount = 13;
-		currentMax = 1;
+				maxBulletCount = 13;
+				break;
+			case 5:
+				foreach (EnemyRowController ctl in enemyRowControllers) {
+					ctl.numberOfShips = 8;
+					ctl.Activate();
+				}
+				maxBulletCount = 13;
+				currentMax = 1;
+				break;
+
+		}
 	}
 
 	public void GameOver() {
@@ -104,7 +108,11 @@ public class GameController : MonoBehaviour {
 		numShips--;
 		if (numShips == 0) {
 			Debug.Log("Finished level " + currentLevel);
-			Invoke("Level" + ++currentLevel, 3);
+			Invoke("NextLevel", 3);
 		}
+	}
+
+	internal void NextLevel() {
+		StartLevel(++currentLevel);
 	}
 }
