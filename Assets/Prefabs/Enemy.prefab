@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1338814541176092012}
   - component: {fileID: 6103129836038064998}
   - component: {fileID: 3273570080839313494}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +167,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6008317844671020362, guid: ba46cf37d7a714b2ea0d6f2a4a2621ca,
     type: 3}
   boom: {fileID: 8300000, guid: d11217810c791464f940f0d0d4572513, type: 3}
+  decentDelay: 5
+  decentTime: 0
+  decentInterval: 1
 --- !u!82 &3273570080839313494
 AudioSource:
   m_ObjectHideFlags: 0

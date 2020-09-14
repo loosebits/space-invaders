@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - bounds
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -16,9 +17,9 @@ TagManager:
   - 
   - PlayerProjectile
   - EnemyProjectile
-  - 
-  - 
-  - 
+  - Floor
+  - Player
+  - Enemy
   - 
   - 
   - 

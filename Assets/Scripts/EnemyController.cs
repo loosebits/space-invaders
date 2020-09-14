@@ -4,9 +4,12 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
     Animator animator;
     new Rigidbody2D rigidbody2D;
-    int direction = 1;
+    public int direction = 1;
     public GameObject bulletPrefab;
     public AudioClip boom;
+    public float decentDelay = 5;
+    public float decentTime;
+    public float decentInterval = .01f;
     float firingDelay;
     float fireTime;
     AudioSource audioSource;
@@ -19,6 +22,7 @@ public class EnemyController : MonoBehaviour {
         GameObject go = Instantiate(bulletPrefab);
         firingDelay = Random.value * GameController.instance.FiringDelay();
         fireTime = Time.time;
+        decentTime = Time.time;
         GameController.instance.ShipCreated();
         audioSource = GetComponent<AudioSource>();
     }
@@ -33,14 +37,33 @@ public class EnemyController : MonoBehaviour {
     }
 
 	private void FixedUpdate() {
+        //Vector2 position = rigidbody2D.position;
+        //position.x += 3.0f * direction * Time.deltaTime;
+        //if (Time.time > decentTime + decentDelay) {
+        //    position.y += -1.0f * Time.deltaTime;
+        //}
+        //if (Time.time > decentTime + decentDelay + decentInterval) {
+        //    decentTime = Time.time;
+        //}
+        float x = direction;
+        float y = 0;
+        if (Time.time > decentTime + decentDelay) {
+            y = -.3f;
+        }
+        if (Time.time > decentTime + decentDelay + decentInterval) {
+            decentTime = Time.time;
+        }
+        Vector2 offset = new Vector2(x, y);
+        offset.Normalize();
+        offset *= 3.0f * Time.deltaTime;
         Vector2 position = rigidbody2D.position;
-        position.x += 3.0f * direction * Time.deltaTime;
+        position.x += offset.x;
+        position.y += offset.y;
         rigidbody2D.MovePosition(position);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
-        BulletController bulletController = collision.collider.GetComponent<BulletController>();
-        if (bulletController != null) {
+        if (collision.collider.GetComponent<BulletController>() != null || collision.collider.GetComponent<PlayerController>() != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
             audioSource.PlayOneShot(boom);

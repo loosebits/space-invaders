@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D collision) {
         BulletController bullet = collision.collider.GetComponent<BulletController>();
-        if (bullet != null) {
+        if (bullet != null || collision.collider.GetComponent<EnemyController>() != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
             audioSource.PlayOneShot(boom);

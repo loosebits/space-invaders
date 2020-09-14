@@ -128,6 +128,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6442501356649576244, guid: 006f864962c2b4e86a9d048fe6465727,
+        type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6442501356649576245, guid: 006f864962c2b4e86a9d048fe6465727,
         type: 3}
       propertyPath: m_Name
@@ -734,7 +739,7 @@ GameObject:
   - component: {fileID: 653003956}
   - component: {fileID: 653003957}
   - component: {fileID: 653003958}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,7 +884,7 @@ Animator:
   m_GameObject: {fileID: 653003951}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 45f087ddfdd484867aff0365b6df78c7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 215cf1aac3a4e4fe8aceacb67b2be3d6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

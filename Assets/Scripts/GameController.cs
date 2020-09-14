@@ -29,34 +29,55 @@ public class GameController : MonoBehaviour {
 
 	}
 
+	class EnemyRowComparator : IComparer<EnemyRowController> {
+		public int Compare(EnemyRowController x, EnemyRowController y) {
+			if (x.transform.position.y > y.transform.position.y) {
+				return 1;
+            }
+			return -1;
+		}
+	};
+
 	void StartLevel(int level) {
 		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		Array.Sort(enemyRowControllers, new EnemyRowComparator());
 		currentMax = 1;
+		for (int i = 0; i < enemyRowControllers.Length; i++) {
+			if (i % 2 == 1) {
+				enemyRowControllers[i].direction = -1;
+			}
+        }
 		switch (level) {
 			case 1:
-				enemyRowControllers[2].Activate();
+				enemyRowControllers[4].Activate();
 				enemyRowControllers[5].Activate();
 				maxBulletCount = 5;
 				break;
 			case 2:
-				enemyRowControllers[0].Activate();
-				enemyRowControllers[1].Activate();
-				enemyRowControllers[2].Activate();
+				enemyRowControllers[3].Activate();
+				enemyRowControllers[4].Activate();
+				enemyRowControllers[5].Activate();
 				maxBulletCount = 7;
 				break;
 			case 3:
+				enemyRowControllers[0].Activate();
+				enemyRowControllers[1].Activate();
+				enemyRowControllers[2].Activate();
+				maxBulletCount = 10;
+				break;
+			case 4:
 				for (int i = 0; i < 5; i++) {
 					enemyRowControllers[i].Activate();
 				}
 				maxBulletCount = 10;
 				break;
-			case 4:
+			case 5:
 				foreach (EnemyRowController ctl in enemyRowControllers) {
 					ctl.Activate();
 				}
 				maxBulletCount = 13;
 				break;
-			case 5:
+			case 6:
 				foreach (EnemyRowController ctl in enemyRowControllers) {
 					ctl.numberOfShips = 8;
 					ctl.Activate();
