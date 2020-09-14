@@ -5,15 +5,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     public float thrust = 10;
     public GameObject bulletPrefab;
+    public AudioClip pewPew;
+    public AudioClip boom;
 
     float horizontal;
     float vertical;
     new Rigidbody2D rigidbody2D;
     Animator animator;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start() {
         rigidbody2D = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -35,7 +39,7 @@ public class PlayerController : MonoBehaviour {
     void Fire() {
         GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-        bulletRb.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+        audioSource.PlayOneShot(pewPew);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour {
         if (bullet != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
+            audioSource.PlayOneShot(boom);
             GameController.instance.GameOver();
         }
 

@@ -6,8 +6,10 @@ public class EnemyController : MonoBehaviour {
     new Rigidbody2D rigidbody2D;
     int direction = 1;
     public GameObject bulletPrefab;
+    public AudioClip boom;
     float firingDelay;
     float fireTime;
+    AudioSource audioSource;
 
     // Use this for initialization
     void Awake() {
@@ -18,6 +20,7 @@ public class EnemyController : MonoBehaviour {
         firingDelay = Random.value * GameController.instance.FiringDelay();
         fireTime = Time.time;
         GameController.instance.ShipCreated();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -40,6 +43,7 @@ public class EnemyController : MonoBehaviour {
         if (bulletController != null) {
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
+            audioSource.PlayOneShot(boom);
             GameController.instance.ShipDestroyed();
         } else {
 			direction *= -1;

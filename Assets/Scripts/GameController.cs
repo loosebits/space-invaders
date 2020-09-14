@@ -38,9 +38,9 @@ public class GameController : MonoBehaviour {
 				maxBulletCount = 5;
 				break;
 			case 2:
+				enemyRowControllers[0].Activate();
 				enemyRowControllers[1].Activate();
 				enemyRowControllers[2].Activate();
-				enemyRowControllers[3].Activate();
 				maxBulletCount = 7;
 				break;
 			case 3:
@@ -53,7 +53,6 @@ public class GameController : MonoBehaviour {
 				foreach (EnemyRowController ctl in enemyRowControllers) {
 					ctl.Activate();
 				}
-
 				maxBulletCount = 13;
 				break;
 			case 5:
@@ -62,7 +61,6 @@ public class GameController : MonoBehaviour {
 					ctl.Activate();
 				}
 				maxBulletCount = 13;
-				currentMax = 1;
 				break;
 
 		}
