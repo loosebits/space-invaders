@@ -37,14 +37,6 @@ public class EnemyController : MonoBehaviour {
     }
 
 	private void FixedUpdate() {
-        //Vector2 position = rigidbody2D.position;
-        //position.x += 3.0f * direction * Time.deltaTime;
-        //if (Time.time > decentTime + decentDelay) {
-        //    position.y += -1.0f * Time.deltaTime;
-        //}
-        //if (Time.time > decentTime + decentDelay + decentInterval) {
-        //    decentTime = Time.time;
-        //}
         float x = direction;
         float y = 0;
         if (Time.time > decentTime + decentDelay) {

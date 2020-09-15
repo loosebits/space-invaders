@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 	int numShips;
 	int currentLevel;
 	bool gameOver;
+	EnemyRowController[] enemyRowControllers;
 
 	public GameController() {
         instance = this;
@@ -23,6 +24,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start() {
+		enemyRowControllers = FindObjectsOfType<EnemyRowController>();
+		Array.Sort(enemyRowControllers, new EnemyRowComparator());
 		lastIncremented = Time.time;
 		currentLevel = startingLevel;
 		StartLevel(currentLevel);
@@ -38,9 +41,16 @@ public class GameController : MonoBehaviour {
 		}
 	};
 
+	void Activate(params int[] rows) {
+		foreach (int row in rows) {
+			enemyRowControllers[row].Activate();
+        }
+    }
+
+
 	void StartLevel(int level) {
-		EnemyRowController[] enemyRowControllers = FindObjectsOfType<EnemyRowController>();
-		Array.Sort(enemyRowControllers, new EnemyRowComparator());
+		
+		
 		currentMax = 1;
 		for (int i = 0; i < enemyRowControllers.Length; i++) {
 			if (i % 2 == 1) {
@@ -49,40 +59,32 @@ public class GameController : MonoBehaviour {
         }
 		switch (level) {
 			case 1:
-				enemyRowControllers[4].Activate();
-				enemyRowControllers[5].Activate();
+				Activate(3, 5);
 				maxBulletCount = 5;
 				break;
 			case 2:
-				enemyRowControllers[3].Activate();
-				enemyRowControllers[4].Activate();
-				enemyRowControllers[5].Activate();
+				Activate(1, 3, 5);
 				maxBulletCount = 7;
 				break;
 			case 3:
-				enemyRowControllers[0].Activate();
-				enemyRowControllers[1].Activate();
-				enemyRowControllers[2].Activate();
-				maxBulletCount = 10;
+				Activate(0, 2, 5);
+				maxBulletCount = 8;
 				break;
 			case 4:
-				for (int i = 0; i < 5; i++) {
-					enemyRowControllers[i].Activate();
-				}
-				maxBulletCount = 10;
+				Activate(1, 2 , 3, 4);
+				maxBulletCount = 8;
 				break;
 			case 5:
-				foreach (EnemyRowController ctl in enemyRowControllers) {
-					ctl.Activate();
-				}
-				maxBulletCount = 13;
+				Activate(0, 1, 2, 3, 4, 5);
+				maxBulletCount = 8;
 				break;
 			case 6:
 				foreach (EnemyRowController ctl in enemyRowControllers) {
 					ctl.numberOfShips = 8;
 					ctl.Activate();
 				}
-				maxBulletCount = 13;
+
+				maxBulletCount = 10;
 				break;
 
 		}
