@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: -1338814541176092012}
   - component: {fileID: 6103129836038064998}
   - component: {fileID: 3273570080839313494}
+  - component: {fileID: 6226868413473802499}
+  - component: {fileID: 3476047320757737225}
+  - component: {fileID: 6523810714855872332}
   m_Layer: 12
   m_Name: Enemy 2
   m_TagString: Untagged
@@ -124,7 +127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1.28, y: 1.28}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -164,13 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ac57a6b119f40c7af78bebae2749d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 1
-  bulletPrefab: {fileID: 6008317844671020362, guid: ba46cf37d7a714b2ea0d6f2a4a2621ca,
-    type: 3}
   boom: {fileID: 8300000, guid: d11217810c791464f940f0d0d4572513, type: 3}
-  decentDelay: 5
-  decentTime: 0
-  decentInterval: 1
 --- !u!82 &3273570080839313494
 AudioSource:
   m_ObjectHideFlags: 0
@@ -267,3 +264,46 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6226868413473802499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028863345881349390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 681fb8edbf62d4a23a49fb62bbf47788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6008317844671020362, guid: ba46cf37d7a714b2ea0d6f2a4a2621ca,
+    type: 3}
+--- !u!114 &3476047320757737225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028863345881349390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b5e182f1c56440cb863289228f35ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 1
+  decentDelay: 2.5
+  decentInterval: 0.5
+  speed: 3.5
+--- !u!114 &6523810714855872332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028863345881349390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b16c6e115894d3f9d583f9e63d33ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 100

@@ -4,13 +4,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
     Animator animator;
     new Rigidbody2D rigidbody2D;
-    public int direction = 1;
-    public GameObject bulletPrefab;
     public AudioClip boom;
-    public float decentDelay = 5;
-    public float decentTime;
-    public float decentInterval = .01f;
-    public float speed;
     float firingDelay;
     float fireTime;
 
@@ -18,64 +12,30 @@ public class EnemyController : MonoBehaviour {
 
     // Use this for initialization
     void Awake() {
-
         animator = GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-        GameObject go = Instantiate(bulletPrefab);
-        firingDelay = Random.value * GameController.instance.FiringDelay();
-        fireTime = Time.time;
-        decentTime = Time.time;
-        GameController.instance.ShipCreated();
+        GameController.instance.ShipCreated(gameObject);
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update() {
-        if (Time.time > fireTime + firingDelay) {
-            Fire();
-            firingDelay = Random.value * GameController.instance.FiringDelay();
-            fireTime = Time.time;
-        }
-    }
 
-	private void FixedUpdate() {
-        float x = direction;
-        float y = 0;
-        if (Time.time > decentTime + decentDelay) {
-            y = -.3f;
-        }
-        if (Time.time > decentTime + decentDelay + decentInterval) {
-            decentTime = Time.time;
-        }
-        Vector2 offset = new Vector2(x, y);
-        offset.Normalize();
-        offset *= speed * Time.deltaTime;
-        Vector2 position = rigidbody2D.position;
-        position.x += offset.x;
-        position.y += offset.y;
-        rigidbody2D.MovePosition(position);
-	}
-
-	private void OnCollisionEnter2D(Collision2D collision) {
+	protected void OnCollisionEnter2D(Collision2D collision) {
+        Debug.Log("Collided with " + collision.collider.gameObject +  " that has a " + collision.collider.GetComponent<BulletController>());
         if (collision.collider.GetComponent<BulletController>() != null || collision.collider.GetComponent<PlayerController>() != null) {
+            GameController.instance.ShipDestroyed(gameObject, collision.collider.GetComponent<BulletController>() != null);
             rigidbody2D.simulated = false;
             animator.SetTrigger("Hit");
             audioSource.PlayOneShot(boom);
-            GameController.instance.ShipDestroyed();
+            Debug.Log("Ship destroyed");
+            Destroy(gameObject);
         } else {
-			direction *= -1;
+			foreach (ICollisionDetector det in gameObject.GetComponents<ICollisionDetector>()) {
+                det.OnCollision(collision);
+            }
         }
     }
 
-    void Fire() {
-        Debug.Log("Fire");
-        if (GameController.instance.CanHaveMoreBullets() && rigidbody2D.simulated) {
-            GameObject bullet = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-            Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-            bulletRb.velocity = new Vector2(rigidbody2D.velocity.x, 0);
-            GameController.instance.BulletFired();
-        }
-    }
+    
 
 
 }

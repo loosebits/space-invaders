@@ -17,7 +17,7 @@ public class EnemyRowController : MonoBehaviour {
         float distance = rowBounds.width / numberOfShips;
         for (float x = distance / 2; x <= rowBounds.width - (distance / 2); x += distance) {
             GameObject ship = Instantiate(shipPrefab, new Vector3(t.position.x + t.rect.xMin + x, y, 0), Quaternion.identity);
-            EnemyController controller = ship.GetComponent<EnemyController>();
+            EnemyMovementController controller = ship.GetComponent<EnemyMovementController>();
             controller.direction = direction;
             controller.speed = speed;
             EnemyController ctl = ship.GetComponent<EnemyController>();

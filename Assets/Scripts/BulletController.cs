@@ -8,8 +8,8 @@ public class BulletController : MonoBehaviour {
     public float maxDistance = 5;
     float startPosition;
     new Rigidbody2D rigidbody2D;
-    
-    
+
+
 
     void Awake() {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -21,16 +21,15 @@ public class BulletController : MonoBehaviour {
     void Update() {
         if (Mathf.Abs(transform.position.y - startPosition) > maxDistance) {
             Destroy(gameObject);
-		}
+        }
     }
 
-	void OnCollisionEnter2D(Collision2D collision) {
-        
+    void OnCollisionEnter2D(Collision2D collision) {
+
         if (gameObject.layer == LayerMask.NameToLayer("EnemyProjectile")) {
             GameController.instance.BulletDestroyed();
         }
-        
         Destroy(gameObject);
-	}
+    }
 
 }

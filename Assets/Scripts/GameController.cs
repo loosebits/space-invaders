@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour {
 	int currentLevel;
 	bool gameOver;
 	EnemyRowController[] enemyRowControllers;
+	public float bonusShipDelay = 5;
+	public Vector2 bonusShipSpawnPosition = new Vector2(-10, 4.5f);
 
 	public GameController() {
         instance = this;
@@ -29,10 +31,10 @@ public class GameController : MonoBehaviour {
 		lastIncremented = Time.time;
 		currentLevel = startingLevel;
 		StartLevel(currentLevel);
-
+		bonusShipSpawnTime = Time.time + bonusShipDelay * UnityEngine.Random.value + bonusShipDelay;
 	}
 
-	class EnemyRowComparator : IComparer<EnemyRowController> {
+    class EnemyRowComparator : IComparer<EnemyRowController> {
 		public int Compare(EnemyRowController x, EnemyRowController y) {
 			if (x.transform.position.y > y.transform.position.y) {
 				return 1;
@@ -49,7 +51,9 @@ public class GameController : MonoBehaviour {
 
 
 	void StartLevel(int level) {
-		
+		if (level < 0) {
+			return;
+        }
 		
 		currentMax = 1;
 		for (int i = 0; i < enemyRowControllers.Length; i++) {
@@ -107,6 +111,9 @@ public class GameController : MonoBehaviour {
 		SceneManager.LoadScene("MainMenu");
     }
 
+	float bonusShipSpawnTime;
+    bool bonusShip = false;
+	public GameObject bonusShipPrefab;
 	// Update is called once per frame
 	void Update() {
 		Debug.Log("Current max = " + currentMax);
@@ -116,10 +123,22 @@ public class GameController : MonoBehaviour {
 				lastIncremented = Time.time;
 			}
 		}
+		if (!bonusShip  && Time.time > bonusShipSpawnTime + bonusShipDelay * UnityEngine.Random.value) {
+			if (numShips >= minimumNumberOfShipsForBonusShipSpawn) {
+				Instantiate(bonusShipPrefab, new Vector3(bonusShipSpawnPosition.x, bonusShipSpawnPosition.y, 1), Quaternion.identity);
+				bonusShip = true;
+				Debug.Log("Creating bonus ship");
+			}
+			bonusShipSpawnTime = Time.time;
+		}
     }
 
-	internal void ShipCreated() {
-		numShips++;
+	public int minimumNumberOfShipsForBonusShipSpawn = 5;
+
+	internal void ShipCreated(GameObject gameObject) {
+		if (gameObject.GetComponent<BonusEnemyMovementController>() == null) {
+			numShips++;
+		} 
 	}
 
 	internal void BulletDestroyed() {
@@ -139,16 +158,26 @@ public class GameController : MonoBehaviour {
 		return (float)numBullets / (float)currentMax;
 	}
 
-	internal void ShipDestroyed() {
-		numShips--;
-		if (numShips == 0) {
-			Debug.Log("Finished level " + currentLevel);
-			Invoke("NextLevel", 3);
+	internal void ShipDestroyed(GameObject gameObject, bool scores = false) {
+
+		if (gameObject.GetComponent<BonusEnemyMovementController>() != null) {
+			Debug.Log("Bonus ship destroyed");
+			bonusShipSpawnTime = Time.time + bonusShipDelay * UnityEngine.Random.value + bonusShipDelay;
+			bonusShip = false;
+		} else { 
+			numShips--;
+			if (numShips == 0) {
+				Debug.Log("Finished level " + currentLevel);
+				Invoke("NextLevel", 3);
+			}
 		}
-		ScoreController.instance.AddScore(100);
+		if (scores) {
+			ScoreController.instance.AddScore(gameObject.GetComponent<ScoreComponent>().GetScore());
+		}
 	}
 
 	internal void NextLevel() {
 		StartLevel(++currentLevel);
+
 	}
 }
