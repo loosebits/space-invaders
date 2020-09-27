@@ -10,8 +10,10 @@ public class EnemyController : MonoBehaviour {
     public float decentDelay = 5;
     public float decentTime;
     public float decentInterval = .01f;
+    public float speed;
     float firingDelay;
     float fireTime;
+
     AudioSource audioSource;
 
     // Use this for initialization
@@ -47,7 +49,7 @@ public class EnemyController : MonoBehaviour {
         }
         Vector2 offset = new Vector2(x, y);
         offset.Normalize();
-        offset *= 3.0f * Time.deltaTime;
+        offset *= speed * Time.deltaTime;
         Vector2 position = rigidbody2D.position;
         position.x += offset.x;
         position.y += offset.y;

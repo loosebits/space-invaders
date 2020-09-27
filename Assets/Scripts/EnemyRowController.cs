@@ -6,6 +6,7 @@ public class EnemyRowController : MonoBehaviour {
     public int numberOfShips;
     public GameObject shipPrefab;
     public int direction = 1;
+    public float speed = 3;
 
     List<GameObject> ships = new List<GameObject>();
 
@@ -16,14 +17,14 @@ public class EnemyRowController : MonoBehaviour {
         float distance = rowBounds.width / numberOfShips;
         for (float x = distance / 2; x <= rowBounds.width - (distance / 2); x += distance) {
             GameObject ship = Instantiate(shipPrefab, new Vector3(t.position.x + t.rect.xMin + x, y, 0), Quaternion.identity);
-            ship.GetComponent<EnemyController>().direction = direction;
+            EnemyController controller = ship.GetComponent<EnemyController>();
+            controller.direction = direction;
+            controller.speed = speed;
             EnemyController ctl = ship.GetComponent<EnemyController>();
             ships.Add(ship);
 		}
         
     }
-    
-
 
     // Update is called once per frame
     void Update() {

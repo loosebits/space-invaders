@@ -28,7 +28,8 @@ public class BulletController : MonoBehaviour {
         
         if (gameObject.layer == LayerMask.NameToLayer("EnemyProjectile")) {
             GameController.instance.BulletDestroyed();
-		}
+        }
+        
         Destroy(gameObject);
 	}
 

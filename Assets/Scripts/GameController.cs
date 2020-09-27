@@ -83,8 +83,16 @@ public class GameController : MonoBehaviour {
 					ctl.numberOfShips = 8;
 					ctl.Activate();
 				}
-
 				maxBulletCount = 10;
+				break;
+			default:
+				foreach (EnemyRowController ctl in enemyRowControllers) {
+					ctl.numberOfShips = 8;
+					ctl.speed += 0.5f * (level - 5);
+					ctl.Activate();
+					
+				}
+				maxBulletCount = 10 + 2 * (level - 5);
 				break;
 
 		}
@@ -137,6 +145,7 @@ public class GameController : MonoBehaviour {
 			Debug.Log("Finished level " + currentLevel);
 			Invoke("NextLevel", 3);
 		}
+		ScoreController.instance.AddScore(100);
 	}
 
 	internal void NextLevel() {
